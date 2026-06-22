@@ -1,0 +1,11 @@
+# Fault/disconnect and stuck-at simulation.
+fault 2 on 1
+read pressure_ma_x100
+fault 2 off 1
+stuck 2 on 7 1
+set 2 12 1
+read pressure_ma_x100
+stuck 2 off 0 1
+set 2 12 1
+read pressure_ma_x100
+

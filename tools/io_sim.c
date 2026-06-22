@@ -122,6 +122,54 @@ static int run_line(char *line)
         return dephy_io_poll();
     }
 
+    if (strcmp(cmd, "fault") == 0) {
+        char state[16];
+
+        if (sscanf(line, "%31s %d %15s %d", cmd, &channel, state, &advance_ms) != 4) {
+            fprintf(stderr, "error: fault syntax: fault <driver_channel> <on|off> <advance_ms>\n");
+            return -1;
+        }
+        if (dephy_io_posix_sim_set_fault((uint16_t)channel,
+                                         strcmp(state, "on") == 0) != 0) {
+            fprintf(stderr, "error: fault failed for driver channel %d\n", channel);
+            return -1;
+        }
+        dephy_io_posix_sim_advance_ms((uint32_t)advance_ms);
+        return dephy_io_poll();
+    }
+
+    if (strcmp(cmd, "stuck") == 0) {
+        char state[16];
+
+        if (sscanf(line, "%31s %d %15s %d %d",
+                   cmd, &channel, state, &value, &advance_ms) != 5) {
+            fprintf(stderr,
+                    "error: stuck syntax: stuck <driver_channel> <on|off> <raw> <advance_ms>\n");
+            return -1;
+        }
+        if (dephy_io_posix_sim_set_stuck((uint16_t)channel,
+                                         strcmp(state, "on") == 0,
+                                         value) != 0) {
+            fprintf(stderr, "error: stuck failed for driver channel %d\n", channel);
+            return -1;
+        }
+        dephy_io_posix_sim_advance_ms((uint32_t)advance_ms);
+        return dephy_io_poll();
+    }
+
+    if (strcmp(cmd, "noise") == 0) {
+        if (sscanf(line, "%31s %d %d %d", cmd, &channel, &value, &advance_ms) != 4) {
+            fprintf(stderr, "error: noise syntax: noise <driver_channel> <raw_span> <advance_ms>\n");
+            return -1;
+        }
+        if (dephy_io_posix_sim_set_noise((uint16_t)channel, value) != 0) {
+            fprintf(stderr, "error: noise failed for driver channel %d\n", channel);
+            return -1;
+        }
+        dephy_io_posix_sim_advance_ms((uint32_t)advance_ms);
+        return dephy_io_poll();
+    }
+
     if (strcmp(cmd, "sleep") == 0) {
         if (sscanf(line, "%31s %d", cmd, &advance_ms) != 2) {
             fprintf(stderr, "error: sleep syntax: sleep <advance_ms>\n");
@@ -201,6 +249,9 @@ static void usage(const char *argv0)
             "usage: %s [SCENARIO]\n\n"
             "Commands:\n"
             "  set <driver_channel> <raw> <advance_ms>\n"
+            "  fault <driver_channel> <on|off> <advance_ms>\n"
+            "  stuck <driver_channel> <on|off> <raw> <advance_ms>\n"
+            "  noise <driver_channel> <raw_span> <advance_ms>\n"
             "  sleep <advance_ms>\n"
             "  write <name> <value>\n"
             "  read <name>\n",
@@ -240,4 +291,3 @@ int main(int argc, char **argv)
     fclose(file);
     return rc;
 }
-
