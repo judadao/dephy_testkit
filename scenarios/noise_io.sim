@@ -1,0 +1,15 @@
+# Noise/jitter simulation at the raw driver boundary.
+channel noisy_pressure ai 20 0 100 1
+
+noise 20 2 0
+set 20 10 1
+read noisy_pressure
+expect_between noisy_pressure 800 1200 0
+sleep 1
+read noisy_pressure
+expect_between noisy_pressure 800 1200 0
+noise 20 0 0
+set 20 10 1
+read noisy_pressure
+expect noisy_pressure 1000 0
+

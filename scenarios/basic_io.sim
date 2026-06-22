@@ -3,14 +3,20 @@
 #   driver channel 1 => relay DO
 #   driver channel 2 => pressure_ma_x100 AI, raw * 100
 read door
+expect door 0 0
 set 0 1 10
 read door
+expect door 0 0
 sleep 10
 read door
+expect door 1 0
 set 2 12 1
 read pressure_ma_x100
+expect pressure_ma_x100 1200 0
 write relay 1
 read relay
+expect relay 1 0
+expect_raw 1 1
 set 0 0 20
 read door
-
+expect door 0 0

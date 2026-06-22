@@ -1,0 +1,25 @@
+# Explicit channel map. These definitions replace the built-in defaults.
+channel limit_switch di 10 5 1 1
+channel pump_cmd do 11 0 1 1
+channel tank_level ai 12 0 25 2 100
+channel valve_setpoint ao 13 0 10 1
+
+read limit_switch
+expect limit_switch 0 0
+set 10 1 4
+read limit_switch
+expect limit_switch 0 0
+sleep 1
+read limit_switch
+expect limit_switch 1 0
+set 12 8 1
+read tank_level
+expect tank_level 200 0
+write valve_setpoint 70
+read valve_setpoint
+expect valve_setpoint 70 0
+expect_raw 13 7
+write pump_cmd 1
+read pump_cmd
+expect pump_cmd 1 0
+expect_raw 11 1
