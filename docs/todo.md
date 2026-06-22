@@ -30,3 +30,7 @@ Source of truth: `docs/todo.yaml`. Update YAML before starting or completing wor
 ## performance
 
 - [x] Add a large IO scenario regression to measure simulator runtime and fixture startup overhead.
+
+## validation
+
+- [x] Clean up cppcheck style findings in the IO simulator.

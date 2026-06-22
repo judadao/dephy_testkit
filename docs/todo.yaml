@@ -85,3 +85,10 @@ items:
   title: Add machine-readable test result summaries for product CI aggregation.
   status: done
   notes: Added scripts/run_with_result.sh and JSON result coverage.
+- id: cppcheck-io-sim-cleanup
+  area: validation
+  title: Clean up cppcheck style findings in the IO simulator.
+  status: done
+  notes: workspace cppcheck reported reducible variable scope and const pointer
+    cleanup in tools/io_sim.c. Reduced MQTT topic variable scope and made the
+    scenario line pointer const.

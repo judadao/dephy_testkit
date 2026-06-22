@@ -171,8 +171,6 @@ static int init_io(void)
 
 static void on_event(const dephy_io_event_t *event, void *user)
 {
-    const char *base_topic;
-
     (void)user;
 
     if (g_output_format == OUTPUT_TEXT) {
@@ -197,7 +195,7 @@ static void on_event(const dephy_io_event_t *event, void *user)
     if (g_emit_mqtt || g_output_format == OUTPUT_MQTT) {
         char topic[160];
         char payload[160];
-        base_topic = event->sample.fault ? "fault" : "event";
+        const char *base_topic = event->sample.fault ? "fault" : "event";
 
         if (dephy_io_format_topic(topic, sizeof(topic), g_site, g_node,
                                   event->sample.name, base_topic) > 0 &&
@@ -343,7 +341,7 @@ static int expect_raw(int driver_channel, int expected_raw)
     return 0;
 }
 
-static int run_line(char *line)
+static int run_line(const char *line)
 {
     char cmd[32];
     char name[64];
