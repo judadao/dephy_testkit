@@ -59,3 +59,8 @@ simulation mechanics.
 
 - `docs/module_structure.md`: scripts, tools, scenarios, and tests.
 - `docs/todo.md`: current TODO summary.
+
+## License
+
+MIT. See `LICENSE` and `NOTICE.md`. Reuse and references are allowed, but the
+copyright notice and attribution to Judd (judadao) must be preserved.

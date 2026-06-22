@@ -1,7 +1,17 @@
 {
   "repo_type": "testkit",
   "name": "dephy_testkit",
+  "description": "Reusable Linux test harness, broker/P2P fixtures, JSON result wrapper, and industrial IO scenario simulator for Dephy repos.",
   "module_kind": "test_harness",
-  "product_dependency_allowed": true
+  "product_dependency_allowed": true,
+  "license": "MIT",
+  "attribution_notice": "Copyright notice and attribution to Judd (judadao) must be preserved.",
+  "topics": [
+    "dephy",
+    "testkit",
+    "io-simulator",
+    "mqtt",
+    "p2p",
+    "ci"
+  ]
 }
-
