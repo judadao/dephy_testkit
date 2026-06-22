@@ -51,3 +51,27 @@ items:
   area: harness
   title: Add MQTT bridge integration for the industrial IO simulator.
   status: done
+- id: align-golden-sample
+  area: repo
+  title: Align repository layout with dephy_module_golden_sample.
+  status: in_progress
+- id: add-agents-doc
+  area: repo
+  title: Add AGENTS.md with harness workflow, scenario conventions, and validation commands.
+  status: todo
+- id: module-structure-doc
+  area: repo
+  title: Add docs/module_structure.md describing scripts, tools, fixtures, scenarios, and tests.
+  status: todo
+- id: makefile-linux-alias
+  area: repo
+  title: Add Makefile.linux or document the Makefile compatibility path expected by module repos.
+  status: todo
+- id: large-scenario-performance
+  area: performance
+  title: Add a large IO scenario regression to measure simulator runtime and fixture startup overhead.
+  status: todo
+- id: structured-result-output
+  area: harness
+  title: Add machine-readable test result summaries for product CI aggregation.
+  status: todo
