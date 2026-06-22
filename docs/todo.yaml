@@ -1,0 +1,53 @@
+version: 1
+policy:
+  source_of_truth: docs/todo.yaml
+  rules:
+    - Before starting work, add or update the relevant TODO item.
+    - When behavior changes, update TODO status in the same change.
+    - Keep docs/todo.md as a human-readable summary generated from this file.
+items:
+  - id: io-channel-map
+    area: io_sim
+    title: Allow scenario files to declare IO channel maps.
+    status: done
+  - id: io-expectations
+    area: io_sim
+    title: Validate scenario expectations inside io_sim.
+    status: done
+  - id: io-mqtt-lines
+    area: io_sim
+    title: Emit MQTT-like topic/payload lines for product integration tests.
+    status: done
+  - id: io-output-formats
+    area: io_sim
+    title: Add configurable output formats for text, JSONL, and MQTT command streams.
+    status: done
+  - id: io-scenario-examples
+    area: io_sim
+    title: Add scenario examples for DI, DO, AI, AO, fault, stuck-at, and noise states.
+    status: done
+  - id: io-raw-boundary
+    area: io_sim
+    title: Keep simulator commands operating at the raw driver boundary used by real drivers.
+    status: done
+  - id: assert-eventually
+    area: harness
+    title: Add assert_eventually with timeout and interval controls.
+    status: todo
+  - id: mqtt-capture
+    area: harness
+    title: Add MQTT subscriber capture helpers.
+    status: todo
+  - id: broker-build-fixture
+    area: harness
+    title: Add broker build helpers that compile per-port binaries when needed.
+    status: todo
+  - id: p2p-mesh-fixture
+    area: harness
+    title: Add P2P mesh fixture that starts N static-seed brokers.
+    status: todo
+  - id: io-mqtt-bridge-integration
+    area: harness
+    title: Add MQTT bridge integration for the industrial IO simulator.
+    status: todo
+

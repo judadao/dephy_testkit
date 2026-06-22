@@ -3,7 +3,7 @@ CC            ?= gcc
 CFLAGS        ?= -Wall -Wextra -std=c11 -g
 OUTDIR        ?= out
 
-.PHONY: all test io-sim clean
+.PHONY: all test io-sim todo-check clean
 
 all: io-sim
 
@@ -23,7 +23,10 @@ $(OUTDIR)/io_sim: tools/io_sim.c \
 
 io-sim: $(OUTDIR)/io_sim
 
-test: io-sim
+todo-check:
+	python3 ../dephy_todo/tools/dephy_todo.py validate docs/todo.yaml
+
+test: todo-check io-sim
 	sh tests/selftest.sh
 	sh tests/test_io_sim.sh
 
