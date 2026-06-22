@@ -2,8 +2,37 @@
 
 Reusable Linux test harness and IO simulator fixtures for Dephy repos.
 
-Use this repo for shell assertions, process cleanup, broker/P2P fixtures,
-industrial IO scenarios, and machine-readable test result wrappers.
+`dephy_testkit` collects the test utilities that otherwise get copied from repo
+to repo: shell assertions, cleanup helpers, broker fixtures, P2P fixtures,
+machine-readable result wrappers, and deterministic industrial IO scenarios.
+
+## Why This Exists
+
+- Routine integration tests should be cheap to add.
+- Products and modules should share the same process cleanup and retry helpers.
+- IO behavior can be tested from scenario files before hardware is available.
+- CI can consume JSON result output instead of scraping ad hoc logs.
+
+## Normal Flow
+
+1. Source `scripts/assert.sh` or `scripts/testlib.sh` from a repo test.
+2. Use fixture helpers to start brokers, allocate ports, and clean processes.
+3. Wrap external commands with `scripts/run_with_result.sh` when JSON output is
+   useful.
+4. Use `out/io_sim` with `.sim` scenario files to test IO-dependent product
+   logic on Linux.
+
+## How It Works
+
+The shell harness owns boring but important behavior: temporary directories,
+port allocation, eventual assertions, cleanup traps, and consistent pass/fail
+reporting. The IO simulator executes scenario commands against the same raw
+state concepts used by `dephy_industrial_io`: channel values, faults, stuck
+states, noise, reads, writes, and expectations.
+
+Because scenarios operate at the driver boundary, a product can validate logic
+against realistic IO transitions without requiring a connected ESP32 or field
+device.
 
 ## Layout
 
@@ -27,33 +56,12 @@ make io-sim
 scripts/run_with_result.sh smoke true
 ```
 
-`make test` builds `out/io_sim`, runs shell harness self-tests, validates IO
-scenario output formats, and checks JSON result output.
-
-## IO Simulator
+IO simulator examples:
 
 ```sh
 out/io_sim scenarios/basic_io.sim
 out/io_sim --mqtt --site factory-a --node node-7 scenarios/basic_io.sim
 out/io_sim --format jsonl scenarios/large_io.sim
-```
-
-Scenario commands operate at the raw driver boundary:
-
-```text
-channel, set, fault, stuck, noise, sleep, write, read,
-expect, expect_between, expect_raw
-```
-
-This lets products test logic against the same raw state model used by real
-GPIO, ADC, and field-bus drivers.
-
-## CI Integration
-
-Use `scripts/run_with_result.sh NAME COMMAND...` to wrap tests and emit JSON:
-
-```json
-{"name":"smoke","result":"pass","status":0,"duration_ms":0}
 ```
 
 ## TODO
