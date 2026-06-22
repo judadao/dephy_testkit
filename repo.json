@@ -1,0 +1,7 @@
+{
+  "repo_type": "testkit",
+  "name": "dephy_testkit",
+  "module_kind": "test_harness",
+  "product_dependency_allowed": true
+}
+
