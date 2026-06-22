@@ -1,84 +1,61 @@
 # dephy_testkit
 
-Shared shell test harness for Dephy modules and product repositories.
+Reusable Linux test harness and IO simulator fixtures for Dephy repos.
 
-The first version focuses on process-based Linux integration tests: assertions,
-port allocation, log directories, cleanup traps, broker helpers, and P2P mesh
-fixture hooks. Product and module repositories can source these scripts instead
-of duplicating setup and cleanup logic in every test.
+Use this repo for shell assertions, process cleanup, broker/P2P fixtures,
+industrial IO scenarios, and machine-readable test result wrappers.
 
-## Use
+## Layout
 
-```sh
-. /path/to/dephy_testkit/scripts/testlib.sh
-
-test_begin "example"
-assert_eq "ready" "ready" "state is ready"
-test_end
+```text
+scripts/assert.sh              assertion helpers
+scripts/testlib.sh             test lifecycle, cleanup, ports, eventually
+scripts/run_with_result.sh     JSON result wrapper
+scripts/broker_fixture.sh      broker helper functions
+scripts/p2p_mesh_fixture.sh    static-seed P2P mesh helper
+tools/io_sim.c                 industrial IO scenario runner
+scenarios/*.sim                deterministic IO fixtures
+tests/                         self-tests and simulator tests
 ```
 
-## Self Test
+## Commands
 
 ```sh
 make test
+make -f Makefile.linux test
+make io-sim
+scripts/run_with_result.sh smoke true
 ```
+
+`make test` builds `out/io_sim`, runs shell harness self-tests, validates IO
+scenario output formats, and checks JSON result output.
 
 ## IO Simulator
 
-`io_sim` is a Linux development fixture for industrial IO behavior. It links
-against the sibling `dephy_industrial_io` repo by default:
-
 ```sh
-make io-sim
 out/io_sim scenarios/basic_io.sim
 out/io_sim --mqtt --site factory-a --node node-7 scenarios/basic_io.sim
-out/io_sim --format jsonl scenarios/basic_io.sim
-out/io_sim --format mqtt --site factory-a --node node-7 scenarios/basic_io.sim
+out/io_sim --format jsonl scenarios/large_io.sim
 ```
 
-Override the dependency path when needed:
-
-```sh
-make io-sim DEPHY_IO_ROOT=/path/to/dephy_industrial_io
-```
-
-Scenario commands:
+Scenario commands operate at the raw driver boundary:
 
 ```text
-channel <name> <di|do|ai|ao> <driver_channel> <debounce_ms> <scale_num> <scale_den> [offset]
-set <driver_channel> <raw> <advance_ms>
-fault <driver_channel> <on|off> <advance_ms>
-stuck <driver_channel> <on|off> <raw> <advance_ms>
-noise <driver_channel> <raw_span> <advance_ms>
-sleep <advance_ms>
-write <name> <value>
-read <name>
-expect <name> <value> <fault>
-expect_between <name> <min> <max> <fault>
-expect_raw <driver_channel> <raw>
+channel, set, fault, stuck, noise, sleep, write, read,
+expect, expect_between, expect_raw
 ```
 
-The fault/stuck/noise commands operate at the same raw driver boundary that
-product firmware will use when it swaps the simulator driver for GPIO, ADC, or
-field-bus drivers.
+This lets products test logic against the same raw state model used by real
+GPIO, ADC, and field-bus drivers.
 
-If a scenario has no `channel` lines, `io_sim` loads a small built-in default
-map for quick smoke tests. If any `channel` line exists, the scenario-defined
-map replaces the defaults.
+## CI Integration
 
-With `--mqtt`, every IO event also emits deterministic MQTT-like lines:
+Use `scripts/run_with_result.sh NAME COMMAND...` to wrap tests and emit JSON:
 
-```text
-mqtt site/<site>/node/<node>/io/<channel>/event {...}
-mqtt site/<site>/node/<node>/io/<channel>/state {...}
+```json
+{"name":"smoke","result":"pass","status":0,"duration_ms":0}
 ```
 
-Use `--format jsonl` for machine-readable event/read/assertion records, or
-`--format mqtt` for MQTT command stream output only.
+## TODO
 
-## Planned Fixtures
-
-- MQTT subscriber capture helpers.
-- P2P multi-broker startup with per-node logs.
-- MQTT bridge integration for `io_sim`.
-- TAP/JUnit output for CI.
+TODO state is tracked in `docs/todo.yaml` and summarized in `docs/todo.md`.
