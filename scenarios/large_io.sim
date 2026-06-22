@@ -1,0 +1,58 @@
+# Larger scenario for simulator runtime and output stability.
+channel di0 di 0 1 1 1
+channel di1 di 1 1 1 1
+channel di2 di 2 1 1 1
+channel di3 di 3 1 1 1
+channel do0 do 10 0 1 1
+channel do1 do 11 0 1 1
+channel do2 do 12 0 1 1
+channel do3 do 13 0 1 1
+channel ai0 ai 20 0 10 1
+channel ai1 ai 21 0 10 1
+channel ai2 ai 22 0 10 1
+channel ai3 ai 23 0 10 1
+channel ao0 ao 30 0 1 1
+channel ao1 ao 31 0 1 1
+channel ao2 ao 32 0 1 1
+channel ao3 ao 33 0 1 1
+
+set 0 1 1
+set 1 1 1
+set 2 1 1
+set 3 1 1
+read di0
+expect di0 1 0
+read di1
+expect di1 1 0
+read di2
+expect di2 1 0
+read di3
+expect di3 1 0
+write do0 1
+expect do0 1 0
+expect_raw 10 1
+write do1 1
+expect do1 1 0
+expect_raw 11 1
+write do2 1
+expect do2 1 0
+expect_raw 12 1
+write do3 1
+expect do3 1 0
+expect_raw 13 1
+set 20 100 1
+expect ai0 1000 0
+set 21 101 1
+expect ai1 1010 0
+set 22 102 1
+expect ai2 1020 0
+set 23 103 1
+expect ai3 1030 0
+write ao0 40
+expect ao0 40 0
+write ao1 41
+expect ao1 41 0
+write ao2 42
+expect ao2 42 0
+write ao3 43
+expect ao3 43 0

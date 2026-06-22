@@ -54,24 +54,34 @@ items:
 - id: align-golden-sample
   area: repo
   title: Align repository layout with dephy_module_golden_sample.
-  status: in_progress
+  status: done
+  notes: Added applicable docs and Makefile.linux compatibility for the testkit module.
 - id: add-agents-doc
   area: repo
-  title: Add AGENTS.md with harness workflow, scenario conventions, and validation commands.
-  status: todo
+  title: Add AGENTS.md with harness workflow, scenario conventions, and validation
+    commands.
+  status: done
+  notes: Added AGENTS.md for harness workflow.
 - id: module-structure-doc
   area: repo
-  title: Add docs/module_structure.md describing scripts, tools, fixtures, scenarios, and tests.
-  status: todo
+  title: Add docs/module_structure.md describing scripts, tools, fixtures, scenarios,
+    and tests.
+  status: done
+  notes: Added docs/module_structure.md for tools, scripts, scenarios, and tests.
 - id: makefile-linux-alias
   area: repo
-  title: Add Makefile.linux or document the Makefile compatibility path expected by module repos.
-  status: todo
+  title: Add Makefile.linux or document the Makefile compatibility path expected by
+    module repos.
+  status: done
+  notes: Added Makefile.linux alias including Makefile.
 - id: large-scenario-performance
   area: performance
-  title: Add a large IO scenario regression to measure simulator runtime and fixture startup overhead.
-  status: todo
+  title: Add a large IO scenario regression to measure simulator runtime and fixture
+    startup overhead.
+  status: done
+  notes: Added large_io.sim and test coverage through io_sim JSONL output.
 - id: structured-result-output
   area: harness
   title: Add machine-readable test result summaries for product CI aggregation.
-  status: todo
+  status: done
+  notes: Added scripts/run_with_result.sh and JSON result coverage.

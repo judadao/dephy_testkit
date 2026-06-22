@@ -3,7 +3,7 @@ CC            ?= gcc
 CFLAGS        ?= -Wall -Wextra -std=c11 -g
 OUTDIR        ?= out
 
-.PHONY: all test io-sim todo-check clean
+.PHONY: all test io-sim todo-check clean result-json
 
 all: io-sim
 
@@ -32,6 +32,10 @@ todo-check:
 test: todo-check io-sim
 	sh tests/selftest.sh
 	sh tests/test_io_sim.sh
+	sh tests/test_result_json.sh
+
+result-json:
+	sh scripts/run_with_result.sh dephy_testkit make test
 
 clean:
 	rm -rf out build_out

@@ -9,6 +9,7 @@ MQTT_OUT=$("$ROOT_DIR/out/io_sim" --mqtt --site factory-a --node node-7 "$ROOT_D
 JSONL_OUT=$("$ROOT_DIR/out/io_sim" --format jsonl "$ROOT_DIR/scenarios/basic_io.sim")
 MQTT_ONLY_OUT=$("$ROOT_DIR/out/io_sim" --format mqtt --site factory-a --node node-7 "$ROOT_DIR/scenarios/basic_io.sim")
 NOISE_OUT=$("$ROOT_DIR/out/io_sim" "$ROOT_DIR/scenarios/noise_io.sim")
+LARGE_OUT=$("$ROOT_DIR/out/io_sim" --format jsonl "$ROOT_DIR/scenarios/large_io.sim")
 
 printf '%s\n' "$OUT"
 printf '%s\n' "$FAULT_OUT"
@@ -17,6 +18,7 @@ printf '%s\n' "$MQTT_OUT"
 printf '%s\n' "$JSONL_OUT"
 printf '%s\n' "$MQTT_ONLY_OUT"
 printf '%s\n' "$NOISE_OUT"
+printf '%s\n' "$LARGE_OUT"
 
 printf '%s\n' "$OUT" | grep -q 'read door di 0 0 0'
 printf '%s\n' "$OUT" | grep -q 'event rising door di 1 0 20'
@@ -43,5 +45,7 @@ if printf '%s\n' "$MQTT_ONLY_OUT" | grep -q '^event '; then
 fi
 printf '%s\n' "$NOISE_OUT" | grep -q 'ok expect_between noisy_pressure 800 1200 0'
 printf '%s\n' "$NOISE_OUT" | grep -q 'ok expect noisy_pressure 1000 0'
+printf '%s\n' "$LARGE_OUT" | grep -q '{"kind":"ok","assert":"expect","name":"ai3","value":1030,"fault":0}'
+printf '%s\n' "$LARGE_OUT" | grep -q '{"kind":"ok","assert":"expect","name":"ao3","value":43,"fault":0}'
 
 printf 'io_sim scenario test passed\n'
