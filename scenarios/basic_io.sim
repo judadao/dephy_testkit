@@ -1,0 +1,16 @@
+# Default channels:
+#   driver channel 0 => door DI, debounce 20 ms
+#   driver channel 1 => relay DO
+#   driver channel 2 => pressure_ma_x100 AI, raw * 100
+read door
+set 0 1 10
+read door
+sleep 10
+read door
+set 2 12 1
+read pressure_ma_x100
+write relay 1
+read relay
+set 0 0 20
+read door
+

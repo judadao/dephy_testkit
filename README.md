@@ -23,10 +23,34 @@ test_end
 make test
 ```
 
+## IO Simulator
+
+`io_sim` is a Linux development fixture for industrial IO behavior. It links
+against the sibling `dephy_industrial_io` repo by default:
+
+```sh
+make io-sim
+out/io_sim scenarios/basic_io.sim
+```
+
+Override the dependency path when needed:
+
+```sh
+make io-sim DEPHY_IO_ROOT=/path/to/dephy_industrial_io
+```
+
+Scenario commands:
+
+```text
+set <driver_channel> <raw> <advance_ms>
+sleep <advance_ms>
+write <name> <value>
+read <name>
+```
+
 ## Planned Fixtures
 
 - MQTT subscriber capture helpers.
 - P2P multi-broker startup with per-node logs.
-- Industrial IO simulator helper around `dephy_industrial_io`.
+- MQTT bridge integration for `io_sim`.
 - TAP/JUnit output for CI.
-
