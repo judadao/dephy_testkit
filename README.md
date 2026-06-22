@@ -6,14 +6,20 @@ Reusable Linux test harness and IO simulator fixtures for Dephy repos.
 to repo: shell assertions, cleanup helpers, broker fixtures, P2P fixtures,
 machine-readable result wrappers, and deterministic industrial IO scenarios.
 
-## Why This Exists
+## Overview
+
+Use this repo when a module or product needs repeatable Linux tests. It provides
+the shared test building blocks so each repo can focus on behavior under test
+instead of rewriting cleanup, retries, fixtures, and IO simulation.
+
+## Key Value
 
 - Routine integration tests should be cheap to add.
 - Products and modules should share the same process cleanup and retry helpers.
 - IO behavior can be tested from scenario files before hardware is available.
 - CI can consume JSON result output instead of scraping ad hoc logs.
 
-## Normal Flow
+## How To Use
 
 1. Source `scripts/assert.sh` or `scripts/testlib.sh` from a repo test.
 2. Use fixture helpers to start brokers, allocate ports, and clean processes.
