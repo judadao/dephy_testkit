@@ -1,7 +1,7 @@
 {
   "repo_type": "testkit",
   "name": "dephy_testkit",
-  "description": "Reusable Linux test harness, broker/P2P fixtures, JSON result wrapper, and industrial IO scenario simulator for Dephy repos.",
+  "description": "Reusable Dephy test toolkit with Linux harnesses, MQTT/P2P fixtures, JSON result reporting, and industrial IO scenario simulation.",
   "module_kind": "test_harness",
   "product_dependency_allowed": true,
   "license": "MIT",
@@ -12,6 +12,8 @@
     "io-simulator",
     "mqtt",
     "p2p",
-    "ci"
+    "ci",
+    "test-automation",
+    "linux"
   ]
 }
