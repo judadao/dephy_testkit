@@ -12,12 +12,15 @@ $(OUTDIR):
 
 $(OUTDIR)/io_sim: tools/io_sim.c \
                   $(DEPHY_IO_ROOT)/src/industrial_io.c \
+                  $(DEPHY_IO_ROOT)/src/payload.c \
                   $(DEPHY_IO_ROOT)/platform/posix/io_posix_sim.c \
                   $(DEPHY_IO_ROOT)/include/dephy_industrial_io/industrial_io.h \
-                  $(DEPHY_IO_ROOT)/include/dephy_industrial_io/posix_sim.h | $(OUTDIR)
+                  $(DEPHY_IO_ROOT)/include/dephy_industrial_io/posix_sim.h \
+                  $(DEPHY_IO_ROOT)/include/dephy_industrial_io/payload.h | $(OUTDIR)
 	$(CC) $(CFLAGS) -I$(DEPHY_IO_ROOT)/include \
 	    tools/io_sim.c \
 	    $(DEPHY_IO_ROOT)/src/industrial_io.c \
+	    $(DEPHY_IO_ROOT)/src/payload.c \
 	    $(DEPHY_IO_ROOT)/platform/posix/io_posix_sim.c \
 	    -o $@
 

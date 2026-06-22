@@ -61,3 +61,26 @@ assert_file_contains()
     testkit_fail "$label: missing '$needle' in $file"
 }
 
+assert_eventually()
+{
+    command=$1
+    timeout=${2:-5}
+    interval=${3:-1}
+    label=${4:-"eventually true"}
+    start=$(date +%s)
+
+    while :; do
+        if sh -c "$command" >/dev/null 2>&1; then
+            testkit_ok "$label"
+            return 0
+        fi
+
+        now=$(date +%s)
+        if [ $((now - start)) -ge "$timeout" ]; then
+            testkit_fail "$label: command did not succeed within ${timeout}s: $command"
+            return 1
+        fi
+
+        sleep "$interval"
+    done
+}

@@ -13,8 +13,8 @@ Source of truth: `docs/todo.yaml`. Update YAML before starting or completing wor
 
 ## harness
 
-- [ ] Add assert_eventually with timeout and interval controls.
-- [ ] Add MQTT subscriber capture helpers.
-- [ ] Add broker build helpers that compile per-port binaries when needed.
-- [ ] Add P2P mesh fixture that starts N static-seed brokers.
-- [ ] Add MQTT bridge integration for the industrial IO simulator.
+- [x] Add assert_eventually with timeout and interval controls.
+- [x] Add MQTT subscriber capture helpers.
+- [x] Add broker build helpers that compile per-port binaries when needed.
+- [x] Add P2P mesh fixture that starts N static-seed brokers.
+- [x] Add MQTT bridge integration for the industrial IO simulator.

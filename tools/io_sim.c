@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <dephy_industrial_io/industrial_io.h>
+#include <dephy_industrial_io/payload.h>
 #include <dephy_industrial_io/posix_sim.h>
 
 #define IO_SIM_MAX_CHANNELS 64
@@ -60,38 +61,6 @@ static const char *g_node = "sim-node";
 static output_format_t g_output_format = OUTPUT_TEXT;
 
 static void on_event(const dephy_io_event_t *event, void *user);
-
-static const char *event_name(dephy_io_event_type_t type)
-{
-    switch (type) {
-    case DEPHY_IO_EVENT_CHANGED:
-        return "changed";
-    case DEPHY_IO_EVENT_RISING:
-        return "rising";
-    case DEPHY_IO_EVENT_FALLING:
-        return "falling";
-    case DEPHY_IO_EVENT_FAULT:
-        return "fault";
-    default:
-        return "unknown";
-    }
-}
-
-static const char *type_name(dephy_io_type_t type)
-{
-    switch (type) {
-    case DEPHY_IO_DI:
-        return "di";
-    case DEPHY_IO_DO:
-        return "do";
-    case DEPHY_IO_AI:
-        return "ai";
-    case DEPHY_IO_AO:
-        return "ao";
-    default:
-        return "unknown";
-    }
-}
 
 static int parse_type(const char *text, dephy_io_type_t *type)
 {
@@ -208,47 +177,38 @@ static void on_event(const dephy_io_event_t *event, void *user)
 
     if (g_output_format == OUTPUT_TEXT) {
         printf("event %s %s %s %d %u %u\n",
-               event_name(event->type),
+               dephy_io_event_name(event->type),
                event->sample.name,
-               type_name(event->sample.type),
+               dephy_io_type_name(event->sample.type),
                event->sample.value,
                event->sample.fault,
                event->sample.changed_at_ms);
     } else if (g_output_format == OUTPUT_JSONL) {
         printf("{\"kind\":\"event\",\"event\":\"%s\",\"name\":\"%s\","
                "\"type\":\"%s\",\"value\":%d,\"fault\":%u,\"t_ms\":%u}\n",
-               event_name(event->type),
+               dephy_io_event_name(event->type),
                event->sample.name,
-               type_name(event->sample.type),
+               dephy_io_type_name(event->sample.type),
                event->sample.value,
                event->sample.fault,
                event->sample.changed_at_ms);
     }
 
     if (g_emit_mqtt || g_output_format == OUTPUT_MQTT) {
+        char topic[160];
+        char payload[160];
         base_topic = event->sample.fault ? "fault" : "event";
 
-        printf("mqtt site/%s/node/%s/io/%s/%s "
-               "{\"event\":\"%s\",\"type\":\"%s\",\"value\":%d,"
-               "\"fault\":%u,\"t_ms\":%u}\n",
-               g_site,
-               g_node,
-               event->sample.name,
-               base_topic,
-               event_name(event->type),
-               type_name(event->sample.type),
-               event->sample.value,
-               event->sample.fault,
-               event->sample.changed_at_ms);
-        printf("mqtt site/%s/node/%s/io/%s/state "
-               "{\"type\":\"%s\",\"value\":%d,\"fault\":%u,\"t_ms\":%u}\n",
-               g_site,
-               g_node,
-               event->sample.name,
-               type_name(event->sample.type),
-               event->sample.value,
-               event->sample.fault,
-               event->sample.changed_at_ms);
+        if (dephy_io_format_topic(topic, sizeof(topic), g_site, g_node,
+                                  event->sample.name, base_topic) > 0 &&
+            dephy_io_format_event_json(payload, sizeof(payload), event) > 0) {
+            printf("mqtt %s %s\n", topic, payload);
+        }
+        if (dephy_io_format_topic(topic, sizeof(topic), g_site, g_node,
+                                  event->sample.name, "state") > 0 &&
+            dephy_io_format_sample_json(payload, sizeof(payload), &event->sample) > 0) {
+            printf("mqtt %s %s\n", topic, payload);
+        }
     }
 }
 
@@ -264,7 +224,7 @@ static int print_read(const char *name)
     if (g_output_format == OUTPUT_TEXT) {
         printf("read %s %s %d %u %u\n",
                sample.name,
-               type_name(sample.type),
+               dephy_io_type_name(sample.type),
                sample.value,
                sample.fault,
                sample.changed_at_ms);
@@ -272,7 +232,7 @@ static int print_read(const char *name)
         printf("{\"kind\":\"read\",\"name\":\"%s\",\"type\":\"%s\","
                "\"value\":%d,\"fault\":%u,\"t_ms\":%u}\n",
                sample.name,
-               type_name(sample.type),
+               dephy_io_type_name(sample.type),
                sample.value,
                sample.fault,
                sample.changed_at_ms);
