@@ -1,0 +1,188 @@
+{
+  "repos": [
+    {
+      "name": "dephy",
+      "path": "dephy",
+      "commands": [
+        {
+          "name": "esp32-profile",
+          "argv": ["sh", "boards/esp32/scripts/test_profile.sh"],
+          "profiles": ["quick", "integration", "full"]
+        },
+        {
+          "name": "esp32-sync-check",
+          "argv": ["sh", "boards/esp32/scripts/sync_zephyr_modules.sh", "--check"],
+          "profiles": ["integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_config",
+      "path": "dephy_config",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_eth",
+      "path": "dephy_eth",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "testkit-test"],
+          "profiles": ["quick", "integration", "full"]
+        },
+        {
+          "name": "zephyr-metadata",
+          "argv": ["make", "-f", "Makefile.linux", "testkit-zephyr-metadata"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_industrial_io",
+      "path": "dephy_industrial_io",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_iot",
+      "path": "dephy_iot",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_module_golden_sample",
+      "path": "dephy_module_golden_sample",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_repo_golden_sample",
+      "path": "dephy_repo_golden_sample",
+      "commands": [
+        {
+          "name": "product-structure-audit",
+          "argv": ["sh", "scripts/audit_product_structure.sh", "."],
+          "profiles": ["quick", "integration", "full"]
+        },
+        {
+          "name": "linux-tests",
+          "argv": ["make", "-C", "tests/linux", "testkit-integration-tests"],
+          "profiles": ["integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_testkit",
+      "path": "dephy_testkit",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_todo",
+      "path": "dephy_todo",
+      "commands": [
+        {
+          "name": "tool-test",
+          "argv": ["make", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_web",
+      "path": "dephy_web",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "dephy_wifi",
+      "path": "dephy_wifi",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "modbus_zephyr_esp32",
+      "path": "modbus_zephyr_esp32",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        }
+      ]
+    },
+    {
+      "name": "mqtt_field_bridge_app",
+      "path": "mqtt_field_bridge_app",
+      "commands": [
+        {
+          "name": "linux-unit",
+          "argv": ["make", "-C", "tests/linux", "testkit-unit-tests", "testkit-render-size"],
+          "profiles": ["quick", "integration", "full"]
+        },
+        {
+          "name": "linux-integration",
+          "argv": ["make", "-C", "tests/linux", "testkit-integration-tests"],
+          "profiles": ["integration", "full"]
+        },
+        {
+          "name": "linux-stress",
+          "argv": ["make", "-C", "tests/linux", "testkit-stress"],
+          "profiles": ["full"]
+        }
+      ]
+    },
+    {
+      "name": "mqtt_min_broker",
+      "path": "mqtt_min_broker",
+      "commands": [
+        {
+          "name": "linux-test",
+          "argv": ["make", "-f", "Makefile.linux", "test"],
+          "profiles": ["quick", "integration", "full"]
+        },
+        {
+          "name": "linux-test-all",
+          "argv": ["make", "-f", "Makefile.linux", "test-all"],
+          "profiles": ["full"]
+        }
+      ]
+    }
+  ]
+}

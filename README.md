@@ -55,6 +55,30 @@ flowchart TD
 Tests should describe behavior. Testkit owns repeatable fixtures, cleanup, and
 simulation mechanics.
 
+## Systematic Regression Testing
+
+`dephy_testkit` owns the shared pytest regression module. Install the pytest
+tools once inside this repo:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-test.txt
+```
+
+Run one repo, one profile, or the full workspace from this repo:
+
+```sh
+.venv/bin/python -m pytest tests/regression --module dephy_testkit
+.venv/bin/python -m pytest tests/regression --module mqtt_min_broker --profile integration
+.venv/bin/python -m pytest tests/regression --profile quick
+```
+
+The local repo test remains:
+
+```sh
+make test
+```
+
 ## Docs
 
 - `docs/module_structure.md`: scripts, tools, scenarios, and tests.
